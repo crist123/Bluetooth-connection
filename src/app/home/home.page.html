@@ -1,14 +1,95 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      Dispositivos disponibles
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+<ion-content style="margin-top: 20px;">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="full" color="primary" (click)="iniciarBt()">Iniciar Bluetooth</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" expand="full" (click)="recibir()">Recibir</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="primary" expand="full" (click)="envio()">Envio</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-label><b>Servicio</b></ion-label>
+        <ion-input type="text" [(ngModel)]="service" placeholder="Servicio"></ion-input>
+      </ion-col>
+      <ion-col>
+        <ion-label><b>Caracteristica</b></ion-label>
+        <ion-input [(ngModel)]="char" placeholder="Caracteristica"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-content *ngIf="tipo=='recibir'">
+    <ion-toolbar>
+      <ion-title>Recibir</ion-title>
+    </ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button color="primary" expand="full" (click)="showVisible()">Hacer visible</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button color="primary" expand="full" (click)="removeServices()">Quitar servicios</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="enEsperaInfo">
+        <ion-col style="text-align: center;">
+          <ion-label>Esperando información.....</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button color="primary" expand="full" (click)="finalizar()">Finalizar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+
+  <ion-content *ngIf="tipo=='envio'">
+    <ion-toolbar>
+      <ion-title>Enviar</ion-title>
+    </ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" color="primary" (click)="escanear()">Volver a escanear</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-input [(ngModel)]="textSend" placeholder="Escriba un valor"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let dev of devices">
+        <ion-col>
+          {{dev.address}}<br>
+          <b>{{dev.name || 'Sin Nombre'}}</b>
+        </ion-col>
+        <ion-col>
+          <ion-button color="primary" expand="full" (click)="sendInfo(dev)">Enviar información</ion-button>
+          <ion-button color="primary" expand="full" (click)="disconnect(dev)">Desconectar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+
 </ion-content>
